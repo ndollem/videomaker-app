@@ -1,8 +1,9 @@
 <head>
     @livewireStyles
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    {{ $slot }}
- 
+    <livewire:form-renderer />
+
     @livewireScripts
 </body>
