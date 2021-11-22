@@ -231,4 +231,8 @@ return [
 
     ],
 
+    'moovly' => [
+        'api_url' => env('MOOVLY_API_URL'),
+        'access_token' => env('MOOVLY_ACCESS_TOKEN')
+    ]
 ];

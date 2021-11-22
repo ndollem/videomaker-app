@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\TestApi;
-
+use App\Http\Livewire\FormRenderer;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +15,13 @@ use App\Http\Livewire\TestApi;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/test-api', TestApi::class)->name('test-api');
-Route::get('/get-template', [TestApi::class, 'getTemplate'])->name('get-template');
-Route::get('/create-video', [TestApi::class, 'createVideo'])->name('create-video');
+// Route::get('/test-api', TestApi::class)->name('test-api');
+// Route::get('/get-template', [TestApi::class, 'getTemplate'])->name('get-template');
+// Route::get('/create-video', [TestApi::class, 'createVideo'])->name('create-video');
+
+Route::get('/', FormRenderer::class)->name('form');
+Route::post('create-video', [FormRenderer::class, 'createVideo'])->name('form.create');
