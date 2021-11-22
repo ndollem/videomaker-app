@@ -17,6 +17,7 @@
                                             class="mt-2 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="5589dc1d-4e16-11e8-acd9-0ab5563f8f76">Template 1</option>
                                             <option value="488b47ec-1c47-11ec-a69f-0699ff9171cb">Template 2</option>
+                                            <option value="399c7e94-b546-11ea-8ba0-06ef0ab4386c">Template 3</option>
                                         </select>
 
                                         @if ($template_variables)
@@ -28,19 +29,19 @@
                                             @forelse ($template_variables as $v)
 
                                                 @if ($v['type'] == 'text')
-                                                    <label class="block text-sm font-medium text-gray-700">Change Text :</label>
+                                                    <label class="block text-sm font-medium text-gray-700">{{$v['name']}} :</label>
                                                     <textarea
                                                         name="variable_values[{{ $v['id'] }}]" class="resize-x mt-2 mb-3 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">{{ $v['default'] }}</textarea>
                                                 @endif
 
                                                 @if ($v['type'] == 'image')
-                                                    <label class="block text-sm font-medium text-gray-700">Change Image :</label>
+                                                    <label class="block text-sm font-medium text-gray-700">{{$v['name']}} :</label>
                                                     <input type="text" name="variable_values[{{ $v['id'] }}]"
                                                         value="{{ $v['default'] }}" class="mt-2 mb-3 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                 @endif
 
                                                 @if ($v['type'] == 'video')
-                                                    <label class="block text-sm font-medium text-gray-700">Change Video :</label>
+                                                    <label class="block text-sm font-medium text-gray-700">{{$v['name']}} :</label>
                                                     <input type="text" name="variable_values[{{ $v['id'] }}]"
                                                         value="{{ $v['default'] }}" class="mt-2 mb-3 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                 @endif
