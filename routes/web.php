@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\TestApi;
@@ -25,3 +26,8 @@ use App\Http\Livewire\FormRenderer;
 
 Route::get('/', FormRenderer::class)->name('form');
 Route::post('create-video', [FormRenderer::class, 'createVideo'])->name('form.create');
+
+// Route::group(['as' => 'project.', 'prefix' => 'project'], function () {
+//     Route::get('/', [ProjectController::class, 'index']);
+//     Route::get('/{project_id}', [ProjectController::class, 'show']);
+// });
