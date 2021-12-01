@@ -13,8 +13,8 @@
                                     @csrf
                                     <div>
                                         <label for="first-name" class="block text-sm font-medium text-gray-700">Choose Template :</label>
-                                        <select name="template_id" wire:change="getTemplate" wire:model="template_id"
-                                            class="mt-2 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select name="template_id" wire:change="getTemplate" wire:model="template_id" class="mt-2 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option value="">- Select -</option>
                                             <option value="5589dc1d-4e16-11e8-acd9-0ab5563f8f76">Template 1</option>
                                             <option value="488b47ec-1c47-11ec-a69f-0699ff9171cb">Template 2</option>
                                             <option value="399c7e94-b546-11ea-8ba0-06ef0ab4386c">Template 3</option>
@@ -67,11 +67,18 @@
                                                 <span class="ml-2">Google Drive</span>
                                             </label>
 
-                                            @if ($notification)
-                                                <label class="block text-sm font-medium text-gray-700">{{ $notification }} ID :</label>
-                                                <input type="text" name="notification_id" class="mt-1 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                                <small>** Make sure that you connect your account to YouTube / Gdrive
-                                                    via Moovly Dashboard first!</small>
+                                            @if ($notification == 'youtube')
+                                            <label class="block text-sm font-medium text-gray-700">Playlist id :</label>
+                                            <input type="text" name="youtube[playlist_id]" class="mt-1 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                                            {{-- <select name="youtube[playlist_id]" class="mt-2 mb-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                <option value="PLWrBAAZmaU_t3-tPfYPK927fAsImbJgDi">Playlist 1 on account 1</option>
+                                                <option value="PLW7Ybb464DsWvKdN36QXb66cjwwx3yBL_">Playlist 1 on account 2</option>
+                                            </select> --}}
+                                            @elseif ($notification)
+                                            <label class="block text-sm font-medium text-gray-700">{{ $notification }} ID :</label>
+                                            <input type="text" name="notification_id" class="mt-1 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <small>** Make sure that you connect your account to YouTube / Gdrive via Moovly Dashboard first!</small>
                                             @endif
 
                                             <div class="flex w-full mt-4 justify-end">
