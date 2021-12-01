@@ -27,6 +27,10 @@ use App\Http\Livewire\FormRenderer;
 Route::get('/', FormRenderer::class)->name('form');
 Route::post('create-video', [FormRenderer::class, 'createVideo'])->name('form.create');
 
+Route::get('/youtube', [App\Http\Controllers\YoutubeController::class, 'index'])->name('youtube');
+Route::post('/youtube', [App\Http\Controllers\YoutubeController::class, 'submit'])->name('youtube.submit');
+
+
 // Route::group(['as' => 'project.', 'prefix' => 'project'], function () {
 //     Route::get('/', [ProjectController::class, 'index']);
 //     Route::get('/{project_id}', [ProjectController::class, 'show']);
