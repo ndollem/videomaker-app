@@ -27,6 +27,8 @@ class Youtube extends Component
 
     public $video;
 
+    public $playlist;
+
 
     protected $rules = [
         'title' => 'required',
@@ -42,6 +44,14 @@ class Youtube extends Component
 
         if(session('youtube-token')) {
             $data['videoCategories'] = $google->getVideoCategories();
+
+            $queryParams = [
+                'maxResults' => 10,
+                'mine' => true
+            ];
+            $data['playlists'] = $google->youtube()->playlists->listPlaylists('status,snippet,contentDetails', $queryParams);
+
+            // dump($data['playlists']);
         }
 
         return view('livewire.youtube', $data);
@@ -56,6 +66,9 @@ class Youtube extends Component
         $snippet->setDescription($this->description);
         $snippet->setTags(explode(',',$this->tags));
         $snippet->setCategoryId($this->category);
+
+        // $playlist = new YT\Playlist();
+        // $playlist->
 
         $status = new YT\VideoStatus();
         $status->privacyStatus = $this->status;
@@ -101,7 +114,7 @@ class Youtube extends Component
 
         // fclose($handle);
 
-        dump($status);
+        // dump($status);
         // dump(($this->video->path()));
     }
 }

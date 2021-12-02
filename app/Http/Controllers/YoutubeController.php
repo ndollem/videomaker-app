@@ -18,8 +18,12 @@ class YoutubeController extends Controller
             $request->session()->put('youtube-token', $token);
 
             return redirect()->route('youtube');
+            dump($token);
+
         }
-            // dump($google->getVideoCategories());
+            // dump($google->oauth->userinfo->get());
+        // dump(session('youtube-token'));
+
 
         return view('pages.google', compact('auth_url'));
     }

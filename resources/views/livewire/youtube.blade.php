@@ -21,6 +21,17 @@
                 @endforeach
             </select>
 
+            {{-- @dd($  ) --}}
+
+            <label for="playlists" class="block text-sm font-medium text-gray-700">Playlists</label>
+            <select name="playlists" wire:model="playlist" class="mt-2 mb-3 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                @forelse($playlists as $playlist)
+                <option value="{{ $playlist->id }}">{{ $playlist->snippet->title }} ({{ $playlist->status->privacyStatus }})</option>
+                @empty
+                <option value="">Tidak ditemukan</option>
+                @endforelse
+            </select>
+
             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
             <select name="status" wire:model="status" class="mt-2 mb-3 py-2 px-3 border focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                 <option value="public">Public</option>

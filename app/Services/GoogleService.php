@@ -9,6 +9,10 @@ Class GoogleService
 {
     public $google;
 
+    public $client;
+
+    public $oauth;
+
     protected $scope;
 
     protected $redirect;
@@ -26,10 +30,22 @@ Class GoogleService
             Google\Service\YouTube::YOUTUBE_UPLOAD
         ]);
         $this->google->setRedirectUri($this->redirect);
+        $this->google->setAccessType('offline');
+        $this->oauth = new Google\Service\Oauth2($this->google);
+
 
         if(session('youtube-token')) {
-            $this->google->setAccessToken(session('youtube-token')['access_token']);
+            $this->google->setAccessToken(session('youtube-token')['access_token'] );
+            $this->google->refreshToken(session('youtube-token')['refresh_token']);
+
+            if($this->google->isAccessTokenExpired()) {
+                session()->forget('youtube-token');
+                redirect()->route('youtube');
+            }
         }
+
+        // dump($this->google->isAccessTokenExpired());
+
 
     }
 
