@@ -87,12 +87,19 @@
             </div>
         </div>
 
+        {{-- @if ($jobs) --}}
+            <div class="flex w-full mt-4 justify-end">
+                <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click="getVideosData">Download Videos</button>
+            </div>
+        {{-- @endif --}}
+
         @if ($message)
             <div class="mt-8 relative px-1 py-10 bg-white shadow-lg sm:rounded-3xl sm:px-6">
                 <div class="bg-white px-1 py-1 sm:rounded-3xl sm:px-6">
                     <div class="bg-gray-200 text-xs">
                         @php
-                            print_r($message);
+                            print("<pre>".print_r($message,true)."</pre>");
+                            print("<pre>".print_r($videoLists,true)."</pre>");
                         @endphp
                     </div>
                 </div>
