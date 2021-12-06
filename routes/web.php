@@ -30,6 +30,9 @@ Route::post('create-video', [FormRenderer::class, 'createVideo'])->name('form.cr
 Route::get('/youtube', [App\Http\Controllers\YoutubeController::class, 'index'])->name('youtube');
 Route::post('/youtube', [App\Http\Controllers\YoutubeController::class, 'submit'])->name('youtube.submit');
 
+Route::get('/youtube-v2', [App\Http\Controllers\Youtubev2Controller::class, 'index'])->name('youtube-v2');
+// Route::post('/youtube-v2', [App\Http\Controllers\Youtubev2Controller::class, 'submit'])->name('youtube.submit');
+
 
 // Route::group(['as' => 'project.', 'prefix' => 'project'], function () {
 //     Route::get('/', [ProjectController::class, 'index']);
