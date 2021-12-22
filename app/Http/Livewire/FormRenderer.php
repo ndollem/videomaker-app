@@ -31,13 +31,15 @@ class FormRenderer extends Component
     }
 
     public function getTemplate(){
-        $template = $this->__getTemplateData($this->template_id);
-        $this->message = $template;
+        if ($this->template_id) {
+            $template = $this->__getTemplateData($this->template_id);
+            $this->message = $template;
 
-        if($template){
-            //get the variables for form input
-            $this->template_variables = isset($template['variables']) && !empty($template['variables']) ? $template['variables'] : [];
-            $this->template_title = $template['name'];
+            if($template){
+                //get the variables for form input
+                $this->template_variables = isset($template['variables']) && !empty($template['variables']) ? $template['variables'] : [];
+                $this->template_title = $template['name'];
+            }
         }
     }
 
@@ -51,29 +53,34 @@ class FormRenderer extends Component
             "template_variables" => $request->variable_values,
         ];
 
+        $notifications = [];
+
         //it would be developed later
 
-        if($request->notification == 'gdrive'){
-            $values["notifications"] = [
-                [
+        if($request->notification == 'gdrive') {
+            $notif = [
                   "type" => "upload-google-drive",
                   "payload" => [
                     "title" => $request->title,
-                    "path" => ["GOOGLE DRIVE FOLDER ID"]
+                    "path" => "GOOGLE DRIVE FOLDER ID"
                   ]
-                ]
-            ];
+                ];
+
+            array_push($notifications, $notif);
         }
 
-        if($request->notification == 'youtube'){
-            $values["notifications"] = [
-                [
-                    "title" => ["YOUTUBE TITLE"],
-                    "description" => ["YOUTUBE DESCRIPTION"],
-                    "playlist_id" => ["OPTIONAL PLAYLIST ID"],
-                    "callback" => ["OPTIONAL CALLBACK URL"]
-                ]
-            ];
+        if($request->notification == 'youtube') {
+            $notif = [
+                    "type" => "upload-youtube",
+                    "payload" => [
+                        "title" => $request->title,
+                        "description" => '',
+                        "playlist_id" => $request->youtube['playlist_id'],
+                        "callback" => ''
+                    ]
+                ];
+
+            array_push($notifications, $notif);
         }
 
         $requestData = [
@@ -83,7 +90,8 @@ class FormRenderer extends Component
                 'create_render' => true,
                 'create_project' => true
             ],
-            'values' => [$values]
+            'values' => [$values],
+            'notifications' => $notifications
         ];
 
         $this->jobs = $this->__sendTemplateData($requestData);
