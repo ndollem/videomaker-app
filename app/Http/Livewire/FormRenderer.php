@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FormRenderer extends Component
 {
@@ -13,6 +14,8 @@ class FormRenderer extends Component
     public $template_title;
     public $notification;
     public $message;
+    public $jobs;
+    public $videoLists = [];
 
     protected $api_url;
     protected $accessToken;
@@ -83,14 +86,46 @@ class FormRenderer extends Component
             'values' => [$values]
         ];
 
-        $this->message = $this->__sendTemplateData($requestData);
+        $this->jobs = $this->__sendTemplateData($requestData);
+        $this->message = $this->jobs;
 
-        return redirect()->to(route('form'));
+        //we can save image with jobs, because we have to wait for status updated to finished.
+        //after image saved, we can create the job for upload to youtube.
+
+        // return redirect()->to(route('form'));
+
     }
 
     public function render()
     {
         return view('livewire.form-renderer')->extends('layouts.app');
+    }
+
+    public function getVideosData(){
+
+        // this is response example for get status video
+        // $this->jobs = [
+        //     'id' => 'f4921cdb-5287-11ec-afbd-0afd511c093b',
+        // ];
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->accessToken,
+        ])
+        ->get($this->api_url . 'jobs/' . $this->jobs['id']);
+
+        $data = $response->json();
+
+        $this->message = $data;
+
+        $videos = isset($data['videos']) && count($data['videos']) > 0 ? $data['videos'] : null;
+
+        if($videos){
+            foreach ($videos as $video) {
+                if($video['status'] == 'success'){
+                    $this->__downloadVideo($video['url']);
+                }
+            }
+        }
     }
 
     protected function __getTemplateData($template_id = NULL){
@@ -115,5 +150,19 @@ class FormRenderer extends Component
         ->post($this->api_url . 'jobs', $data);
 
         return $response->json();
+    }
+
+    protected function __downloadVideo($url){
+        $file_name = basename(strtok($url,'?'));
+        $file_path = $this->jobs['id'] . '/' . $file_name;
+
+        $storage = Storage::disk('public');
+
+        if(! $storage->exists($file_path)){
+            $storage->put($file_path, file_get_contents($url));
+        }
+
+        $this->videoLists[] = $storage->url($file_path);
+
     }
 }
